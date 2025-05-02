@@ -1,0 +1,117 @@
+<div class="mx-[5%] md:mx-[30%] my-[16px] md:my-[32px]">
+  <div
+    class="flex flex-col gap-[10px] items-center bg-white stroke-[#DBDADE] shadow px-[10%] xl:px-[25%] py-[25px] w-full"
+  >
+    <h1
+      class="text-[30px] md:text-[40px] text-black font-bold px-[90px] py-[10px]"
+    >
+      Sign Up
+    </h1>
+    <form
+      (submit)="handleSubmit($event)"
+      class="flex flex-col justify-center w-full"
+    >
+      <input
+        class="mb-[22px] border border-gray-300 rounded px-3 py-2 text-[14px] text-black"
+        type="username"
+        required
+        placeholder="Username"
+        [(ngModel)]="userData.username"
+        name="username"
+      />
+      <input
+        class="mb-[22px] border border-gray-300 rounded px-3 py-2 text-[14px] text-black"
+        type="email"
+        required
+        placeholder="Email"
+        [(ngModel)]="userData.email"
+        name="email"
+      />
+
+      <div class="relative mb-[22px]">
+        <input
+          class="w-full border border-gray-300 rounded px-3 py-2 text-[14px] text-black"
+          [type]="showPassword ? 'text' : 'password'"
+          required
+          placeholder="Password"
+          [(ngModel)]="userData.password"
+          name="password"
+        />
+        <span
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer text-sm"
+          (click)="togglePassword()"
+        >
+          <lucide-angular
+            *ngIf="showPassword"
+            [img]="icons.eye"
+          ></lucide-angular>
+          <lucide-angular
+            *ngIf="!showPassword"
+            [img]="icons.eyeOff"
+          ></lucide-angular>
+        </span>
+      </div>
+
+      <div class="relative mb-[22px]">
+        <input
+          class="w-full border border-gray-300 rounded px-3 py-2 text-[14px] text-black"
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          required
+          placeholder="Confirm Password"
+          [(ngModel)]="userData.confirmPassword"
+          name="confirmPassword"
+        />
+        <span
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer text-sm"
+          (click)="togglePassword()"
+        >
+          <lucide-angular
+            *ngIf="showConfirmPassword"
+            [img]="icons.eye"
+          ></lucide-angular>
+          <lucide-angular
+            *ngIf="!showConfirmPassword"
+            [img]="icons.eyeOff"
+          ></lucide-angular>
+        </span>
+      </div>
+
+      <label
+        class="flex items-center mb-[22px] text-[14px] font-semibold text-[#667085]"
+      >
+        <input type="checkbox" class="mr-2" />
+        Remember me
+      </label>
+
+      <button
+        type="submit"
+        class="bg-[#FD6A2A] py-[12px] rounded-[8px] text-white text-[16px] font-semibold cursor-pointer"
+        [disabled]="isLoading"
+      >
+        <ng-container *ngIf="isLoading; else signInText">
+          <div class="flex justify-center">
+            <div
+              class="animate-spin rounded-full h-5 w-5 border-t-2 border-white border-opacity-50"
+            ></div>
+          </div>
+        </ng-container>
+        <ng-template #signInText>Sign In</ng-template>
+      </button>
+      <p
+        class="text-[#4B465C] text-[15px] text-center leading-[20px] my-[32px]"
+      >
+        By clicking the Sign Up button you agree to our Term and Condition and
+        Privacy Policy
+      </p>
+    </form>
+  </div>
+
+  <div class="flex flex-col w-full items-center mt-[32px]">
+    <span class="text-black text-[15px] font-normal text-center">
+      Already have an account?
+      <a routerLink="/signIn" class="text-[#403D91] hover:underline ml-1">
+        Sign In
+      </a>
+    </span>
+  </div>
+</div>

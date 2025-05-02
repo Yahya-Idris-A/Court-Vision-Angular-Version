@@ -1,0 +1,59 @@
+<nav id="navbar" class="navbar" ref="navbarRef">
+  <input type="checkbox" id="sidebar-active" class="hidden" />
+  <label id="overlay" for="sidebar-active"></label>
+  <div class="flex flex-row justify-between items-center w-full">
+    <div routerLink="/home" class="h-full flex items-center mr-auto">
+      <img src="companyLogo/Logo.png" alt="Logo" class="size-[44px]" />
+    </div>
+    <label for="sidebar-active" class="hidden max-sm:block cursor-pointer">
+      <lucide-angular
+        [img]="icons.menu"
+        class="text-[40px] text-white"
+      ></lucide-angular>
+    </label>
+  </div>
+
+  <div class="linksContainer">
+    <label
+      for="sidebar-active"
+      class="hidden pt-[20px] max-sm:block cursor-pointer"
+    >
+      <lucide-angular
+        [img]="icons.close"
+        class="text-[40px] text-white"
+      ></lucide-angular>
+    </label>
+
+    <!-- Loop untuk link navigasi -->
+    <a
+      *ngFor="let page of ['Home', 'Features', 'Contact']"
+      [routerLink]="'/home'"
+      class="hover:text-[#FD6A2A] text-[20px] font-semibold rounded-[8px] h-full flex items-center cursor-pointer max-sm:h-auto max-sm:hover:bg-[#FD6A2A] max-sm:hover:text-white max-sm:w-full max-sm:py-2.5 max-sm:px-4.5 text-white"
+    >
+      {{ page }}
+    </a>
+
+    <!-- Kondisional berdasarkan user -->
+    <div *ngIf="!user" class="max-sm:w-full">
+      <a
+        [routerLink]="'/signIn'"
+        class="bg-[#FD6A2A] text-white px-4.5 py-2.5 rounded-[8px] flex gap-[8px] text-[20px] font-semibold items-center cursor-pointer max-sm:h-auto max-sm:w-full max-sm:justify-center"
+      >
+        Sign In
+        <lucide-angular
+          [img]="icons.login"
+          class="text-[40px] text-white"
+        ></lucide-angular>
+      </a>
+    </div>
+
+    <div *ngIf="user" class="max-sm:w-full">
+      <a
+        [routerLink]="'/profile/dashboard'"
+        class="bg-[#FD6A2A] text-white px-4.5 py-2.5 rounded-[8px] flex gap-[8px] text-[20px] font-semibold items-center cursor-pointer max-sm:h-auto max-sm:w-full max-sm:justify-center"
+      >
+        Dashboard
+      </a>
+    </div>
+  </div>
+</nav>

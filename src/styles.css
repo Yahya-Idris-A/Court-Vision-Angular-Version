@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+.root {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
+}
