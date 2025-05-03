@@ -1,0 +1,18 @@
+<div #courtRef class="relative w-full">
+  <!-- Gambar Lapangan -->
+  <img
+    src="/court/Shotmap.svg"
+    class="w-full"
+    alt="Court"
+    (load)="onImageLoad()"
+  />
+
+  <!-- Titik Tembakan Pemain -->
+  <div
+    *ngFor="let shot of scaledShots"
+    class="absolute flex items-center justify-center bg-orange-500 rounded-full text-white font-bold w-[20px] h-[20px] text-[10px] max-xl:w-[10px] max-xl:h-[10px] max-xl:text-[8px] max-sm:w-[8px] max-sm:h-[8px] max-sm:text-[5px]"
+    [ngStyle]="{ left: shot.x - 10 + 'px', top: shot.y - 10 + 'px' }"
+  >
+    {{ shot.value }}
+  </div>
+</div>

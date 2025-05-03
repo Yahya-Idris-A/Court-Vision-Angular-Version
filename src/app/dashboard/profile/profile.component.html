@@ -1,0 +1,151 @@
+<div
+  class="flex flex-col items-center gap-[10px] w-full mt-[32px] mr-[2018pxclasspx] max-sm:mt-[16px]"
+>
+  <!-- Header -->
+  <div
+    class="flex flex-row items-center justify-start w-full p-[20px] bg-white stroke-[#667085] shadow"
+  >
+    <p class="text-[18px] text-[#4B465C] font-semibold">My Profile</p>
+  </div>
+  <!-- Form -->
+  <div
+    class="flex flex-col items-center justify-start w-full p-8 bg-white stroke-[#667085] shadow"
+  >
+    <div class="flex flex-col items-center w-full p-4">
+      <img
+        *ngIf="selectedImage"
+        [src]="selectedImage"
+        alt="Selected"
+        class="w-36 h-36 mb-5 rounded-full object-cover"
+      />
+
+      <div
+        *ngIf="selectedImageName"
+        class="px-2 border-2 border-orange-500 rounded mb-5"
+      >
+        <span class="text-gray-500">
+          Selected image: {{ selectedImageName }}
+        </span>
+      </div>
+
+      <label
+        class="drop-zone border-2 w-full border-dashed border-[#9e9e9e] rounded-[8px] px-10 py-5 cursor-pointer mb-4 text-center hover:border-[#FD6A2A]"
+      >
+        <div class="flex flex-col justify-center items-center">
+          <div class="mb-2">
+            <lucide-angular
+              [name]="icons.imagePlus"
+              [size]="50"
+              class="text-[#FD6A2A] text-[40px]"
+            ></lucide-angular>
+          </div>
+          <p class="text-[#FD6A2A] text-[16px] m-0">
+            Browse Image or Drag Here to Upload
+          </p>
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          hidden
+        />
+      </label>
+
+      <div class="flex flex-col gap-4 w-full">
+        <!-- Username -->
+        <div class="flex items-center rounded py-2 relative">
+          <lucide-angular
+            [name]="icons.user"
+            class="text-gray-400 mr-2 absolute ml-1 top-2"
+          ></lucide-angular>
+          <input
+            type="text"
+            class="w-full border border-gray-300 rounded px-3 py-2 text-[14px] text-black pl-8"
+            [(ngModel)]="userName"
+          />
+          <label
+            class="placeholder absolute left-[40px] text-[14px] px-[5px] pointer-events-none text-gray-400"
+            [ngClass]="{ 'top-[-3px] bg-white': userName }"
+          >
+            Username
+          </label>
+        </div>
+
+        <!-- Email -->
+        <div class="flex items-center rounded py-2 relative">
+          <lucide-angular
+            [name]="icons.mail"
+            class="text-gray-400 mr-2 absolute ml-1 top-2"
+          ></lucide-angular>
+          <input
+            type="email"
+            class="w-full border border-gray-300 rounded px-3 py-2 text-[14px] text-black pl-8"
+            [(ngModel)]="userEmail"
+          />
+          <label
+            class="placeholder absolute left-[40px] text-[14px] px-[5px] pointer-events-none text-gray-400"
+            [ngClass]="{ 'top-[-3px] bg-white': userEmail }"
+          >
+            Email
+          </label>
+        </div>
+
+        <!-- Phone and DOB -->
+        <div class="flex flex-row w-full gap-8 justify-between">
+          <div class="flex items-center rounded py-2 w-full relative">
+            <lucide-angular
+              [name]="icons.phone"
+              class="text-gray-400 mr-2 absolute ml-1 top-2"
+            ></lucide-angular>
+            <input
+              type="tel"
+              class="w-full border border-gray-300 rounded py-2 text-[14px] text-black pl-8"
+              [(ngModel)]="userPhone"
+            />
+            <label
+              class="placeholder absolute left-[40px] text-[14px] px-[5px] pointer-events-none text-gray-400"
+              [ngClass]="{ 'top-[-3px] bg-white': userPhone }"
+            >
+              Phone Number
+            </label>
+          </div>
+
+          <div class="flex items-center rounded py-2 w-full relative">
+            <lucide-angular
+              [name]="icons.calendar"
+              class="text-gray-400 mr-2 absolute ml-1 top-2"
+            ></lucide-angular>
+            <input
+              class="w-full border border-gray-300 rounded px-10 py-2 text-[14px] text-black"
+              [matDatepicker]="picker"
+              [(ngModel)]="dateOfBirth"
+              (focus)="openDatepicker()"
+              matInput
+              [readonly]="true"
+            />
+            <label
+              [ngClass]="[
+                dateOfBirth
+                  ? 'top-[-3px] bg-white text-gray-400 absolute left-[40px] text-[14px] px-[5px] pointer-events-none'
+                  : 'absolute left-[40px] text-[14px] px-[5px] pointer-events-none text-gray-400'
+              ]"
+            >
+              Date of Birth
+            </label>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end w-full mt-5">
+        <button
+          class="bg-orange-500 text-white px-6 py-2 rounded-[8px] flex items-center cursor-pointer"
+          (click)="handleSave()"
+        >
+          <lucide-angular [name]="icons.save" class="mr-2"></lucide-angular>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

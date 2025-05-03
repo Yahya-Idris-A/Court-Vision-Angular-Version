@@ -1,0 +1,161 @@
+<div
+  [ngClass]="[
+    'bg-white',
+    'stroke-[#667085]',
+    'shadow',
+    'transition-all',
+    'duration-300',
+    'ease-in-out',
+    'transform',
+    'hidden',
+    'sm:flex',
+    'h-[100dvh]',
+    'sticky',
+    'top-0',
+    'z-50',
+    isSidebarExpanded ? 'w-[400px]' : 'w-[125px]'
+  ]"
+>
+  <aside
+    class="flex h-full flex-col w-full break-words px-2 overflow-x-hidden columns-1"
+  >
+    <!-- Top -->
+    <div class="mt-4 relative pb-2">
+      <div class="flex flex-col space-y-1">
+        <!-- MENU HEADER -->
+        <div
+          class="flex flex-col items-center gap-[20px] w-full px-[18px] max-sm:px-[10px]"
+        >
+          <div class="flex flex-row items-center w-full">
+            <h5
+              [ngClass]="[
+                'text-[#4B465C]',
+                'text-[18px]',
+                'max-sm:text-[8px]',
+                'font-bold',
+                isSidebarExpanded ? 'mr-[35px] max-sm:mr-0' : 'mr-0'
+              ]"
+            >
+              MENU
+            </h5>
+          </div>
+
+          <!-- Menu Items -->
+          <a
+            routerLink="/dashboard/profile"
+            [ngClass]="linkClasses('/dashboard/profile')"
+          >
+            <lucide-angular
+              [name]="icons.userCircle"
+              [size]="40"
+              [ngClass]="iconClasses('/dashboard/profile')"
+            ></lucide-angular>
+            <h2 [ngClass]="textClasses('/dashboard/profile')">Profile</h2>
+          </a>
+
+          <a
+            routerLink="/dashboard/upload"
+            [ngClass]="linkClasses('/dashboard/upload')"
+          >
+            <lucide-angular
+              [name]="icons.upload"
+              [size]="40"
+              [ngClass]="iconClasses('/dashboard/upload')"
+            ></lucide-angular>
+            <h2 [ngClass]="textClasses('/dashboard/upload')">Upload</h2>
+          </a>
+
+          <a
+            routerLink="/dashboard/analyze"
+            [ngClass]="
+              linkClasses([
+                '/dashboard/analyze',
+                '/dashboard/analyze/detail-analyze'
+              ])
+            "
+          >
+            <lucide-angular
+              [name]="icons.clipboardCheck"
+              [size]="40"
+              [ngClass]="
+                iconClasses([
+                  '/dashboard/analyze',
+                  '/dashboard/analyze/detail-analyze'
+                ])
+              "
+            ></lucide-angular>
+            <h2
+              [ngClass]="
+                textClasses([
+                  '/dashboard/analyze',
+                  '/dashboard/analyze/detail-analyze'
+                ])
+              "
+            >
+              Analyze
+            </h2>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom -->
+    <div
+      class="bottom-0 mt-auto whitespace-nowrap mb-1 transition duration-200 block"
+    >
+      <div class="border border-t-1 border-gray-200 mb-3"></div>
+      <!-- Logout -->
+      <div
+        class="flex flex-col items-center gap-[20px] w-full px-[18px] max-sm:px-[10px] mb-[10px]"
+      >
+        <div
+          (click)="logout()"
+          class="flex flex-row items-center w-full max-sm:w-fit px-[18px] max-sm:px-[10px] cursor-pointer rounded-[6px] bg-[#FD6A2A] py-[8px]"
+        >
+          <lucide-angular
+            [name]="icons.logOut"
+            [size]="40"
+            class="w-10 h-10 max-sm:w-5 max-sm:h-5 text-white overflow-visible"
+          ></lucide-angular>
+          <h2
+            [ngClass]="[
+              'text-white',
+              'text-[20px]',
+              'font-normal',
+              'ml-[8px]',
+              'max-sm:hidden',
+              'transition-all',
+              'duration-300',
+              'ease-in-out',
+              'transform',
+              isSidebarExpanded ? 'opacity-100' : 'opacity-0'
+            ]"
+          >
+            Sign Out
+          </h2>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="relative">
+    <button
+      type="button"
+      class="absolute top-[0px] right-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-r-2xl bg-white stroke-[#667085] text-black transition-shadow duration-300 ease-in-out cursor-pointer"
+      (click)="toggleSidebar()"
+    >
+      <!-- Jika sidebar terbuka -->
+      <lucide-angular
+        *ngIf="isSidebarExpanded; else showChevronRight"
+        [name]="icons.chevronLeft"
+        [size]="30"
+      ></lucide-angular>
+
+      <!-- Jika sidebar tertutup -->
+      <ng-template #showChevronRight>
+        <lucide-angular
+          [name]="icons.chevronRight"
+          [size]="30"
+        ></lucide-angular>
+      </ng-template>
+    </button>
+  </div>
+</div>

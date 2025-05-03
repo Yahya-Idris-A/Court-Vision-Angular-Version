@@ -1,0 +1,136 @@
+<div
+  class="flex flex-col items-center justify-start w-full p-[20px] gap-[20px] bg-white stroke-[#667085] shadow"
+>
+  <!-- Team Logos and VS -->
+  <div class="flex flex-row gap-[50px] justify-center items-center">
+    <div class="flex flex-row items-center justify-end">
+      <img
+        [src]="homeLogo"
+        alt="Home Team Logo"
+        width="120"
+        height="120"
+        class="max-sm:w-[60px] max-sm:h-[60px]"
+      />
+    </div>
+    <h1 class="text-[36px] text-[#4B465C] font-semibold">VS</h1>
+    <div class="flex flex-row items-center justify-start">
+      <img
+        [src]="awayLogo"
+        alt="Away Team Logo"
+        width="120"
+        height="120"
+        class="max-sm:w-[60px] max-sm:h-[60px]"
+      />
+    </div>
+  </div>
+
+  <!-- Total Shot Stats Rows -->
+  <div class="flex flex-col w-full justify-center items-center">
+    <div class="flex flex-row justify-between w-full">
+      <ng-container *ngIf="!isLoading; else loadingSkeleton">
+        <p class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          {{ totalShots.home }}
+        </p>
+        <h1 class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          Total Shots
+        </h1>
+        <p class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          {{ totalShots.away }}
+        </p>
+      </ng-container>
+      <ng-template #loadingSkeleton>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+      </ng-template>
+    </div>
+
+    <div
+      class="overflow-hidden rounded-[10px] bg-[#403D91] h-[20px] w-full mt-2"
+    >
+      <ng-container *ngIf="!isLoading; else barLoading">
+        <div
+          class="h-full bg-[#FD6A2A] transition-all duration-300"
+          [style.width.%]="getPercentage(totalShots.home, totalShots.away)"
+        ></div>
+      </ng-container>
+      <ng-template #barLoading>
+        <div class="h-full bg-gray-300 animate-pulse w-full"></div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- 3 Point Shot Stats Rows -->
+  <div class="flex flex-col w-full justify-center items-center">
+    <div class="flex flex-row justify-between w-full">
+      <ng-container *ngIf="!isLoading; else loadingSkeleton">
+        <p class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          {{ threePointers.home }}
+        </p>
+        <h1 class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          3 Pointers
+        </h1>
+        <p class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          {{ threePointers.away }}
+        </p>
+      </ng-container>
+      <ng-template #loadingSkeleton>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+      </ng-template>
+    </div>
+
+    <div
+      class="overflow-hidden rounded-[10px] bg-[#403D91] h-[20px] w-full mt-2"
+    >
+      <ng-container *ngIf="!isLoading; else barLoading">
+        <div
+          class="h-full bg-[#FD6A2A] transition-all duration-300"
+          [style.width.%]="
+            getPercentage(threePointers.home, threePointers.away)
+          "
+        ></div>
+      </ng-container>
+      <ng-template #barLoading>
+        <div class="h-full bg-gray-300 animate-pulse w-full"></div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- 2 Point Shot Stats Rows -->
+  <div class="flex flex-col w-full justify-center items-center">
+    <div class="flex flex-row justify-between w-full">
+      <ng-container *ngIf="!isLoading; else loadingSkeleton">
+        <p class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          {{ twoPointers.home }}
+        </p>
+        <h1 class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          2 Pointers
+        </h1>
+        <p class="text-[36px] max-sm:text-[20px] text-[#4B465C] font-semibold">
+          {{ twoPointers.away }}
+        </p>
+      </ng-container>
+      <ng-template #loadingSkeleton>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+        <div class="h-8 w-24 bg-gray-300 rounded animate-pulse"></div>
+      </ng-template>
+    </div>
+
+    <div
+      class="overflow-hidden rounded-[10px] bg-[#403D91] h-[20px] w-full mt-2"
+    >
+      <ng-container *ngIf="!isLoading; else barLoading">
+        <div
+          class="h-full bg-[#FD6A2A] transition-all duration-300"
+          [style.width.%]="getPercentage(twoPointers.home, twoPointers.away)"
+        ></div>
+      </ng-container>
+      <ng-template #barLoading>
+        <div class="h-full bg-gray-300 animate-pulse w-full"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>

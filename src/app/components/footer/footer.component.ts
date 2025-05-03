@@ -7,7 +7,6 @@ import {
   Mail,
   Phone,
 } from 'lucide-angular';
-import { InstagramIcon } from 'lucide-angular/src/icons';
 
 @Component({
   selector: 'app-footer',
