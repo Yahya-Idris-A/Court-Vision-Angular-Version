@@ -1,0 +1,46 @@
+import axiosIns from '../lib/axios';
+
+// Tambahkan type untuk data login dan register jika tersedia
+interface AuthPayload {
+  email: string;
+  password: string;
+  [key: string]: any;
+}
+
+export interface UserData {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface UserResponse {
+  data: {
+    user: UserData;
+  };
+}
+
+// login
+export const signin = (data: AuthPayload) => {
+  return axiosIns.post('/api/login', data);
+};
+
+// registrasi
+export const signup = (data: AuthPayload) => {
+  return axiosIns.post('/api/signup', data);
+};
+
+// get user profile
+export const getUser = async (): Promise<UserData | null> => {
+  axiosIns.defaults.headers.common['Content-Type'] = 'application/json';
+  axiosIns.defaults.headers.common['Authorization'] = `Bearer ${
+    localStorage.getItem('token')?.replace(/['"]+/g, '') || ''
+  }`;
+
+  try {
+    const res = await axiosIns.get('/api/profile');
+    return res.data.user;
+  } catch (err) {
+    console.error('Error fetching user:', err);
+    return null;
+  }
+};

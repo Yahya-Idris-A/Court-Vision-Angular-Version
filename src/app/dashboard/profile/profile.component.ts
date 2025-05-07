@@ -4,6 +4,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,6 +19,7 @@ import {
   Calendar,
   Save,
 } from 'lucide-angular';
+import * as authServices from '../../../services/authServices';
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +42,6 @@ export class ProfileComponent {
     // Pastikan elemen picker sudah siap
     setTimeout(() => {
       if (this.picker) {
-        console.log('Datepicker sudah terinisialisasi');
         this.cdr.detectChanges(); // Memaksa deteksi perubahan secara manual
       } else {
         console.error('Picker tidak terinisialisasi');
@@ -67,10 +68,26 @@ export class ProfileComponent {
   selectedImage: string = '/user/Avatar.png';
   selectedImageName: string = '';
 
-  userName: string = '';
-  userEmail: string = '';
+  userData = signal<any>(null);
+  userName = signal<string>('');
+  userEmail = signal<string>('');
   userPhone: string = '';
   dateOfBirth: Date | null = null;
+
+  async ngOnInit() {
+    await this.getUserData();
+  }
+
+  private async getUserData(): Promise<void> {
+    try {
+      const data = await authServices.getUser();
+      this.userData.set(data);
+      this.userName.set(data?.name || '');
+      this.userEmail.set(data?.email || '');
+    } catch (error) {
+      console.error('❌ Failed to fetch user data:', error);
+    }
+  }
 
   onImageSelected(event: Event) {
     const input = event.target as HTMLInputElement;

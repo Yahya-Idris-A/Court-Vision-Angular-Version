@@ -40,8 +40,8 @@ export class SidebarComponent {
   }
 
   logout(): void {
-    console.log('Logout...');
-    // Tambahkan implementasi logout di sini
+    localStorage.clear();
+    window.location.href = '/signIn';
   }
 
   isActive(routeMatch: string | string[]): boolean {

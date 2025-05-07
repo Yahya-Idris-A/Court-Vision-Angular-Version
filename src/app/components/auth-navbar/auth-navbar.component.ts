@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import * as authServices from '../../../services/authServices';
 
 @Component({
   selector: 'app-auth-navbar',
@@ -7,5 +8,18 @@ import { Component } from '@angular/core';
   styles: ``,
 })
 export class AuthNavbarComponent {
-  user: { name: string } | null = { name: 'Yahya' };
+  userName = signal<string>('');
+
+  async ngOnInit() {
+    await this.getUserData();
+  }
+
+  private async getUserData(): Promise<void> {
+    try {
+      const data = await authServices.getUser();
+      this.userName.set(data?.name || '');
+    } catch (error) {
+      console.error('❌ Failed to fetch user data:', error);
+    }
+  }
 }

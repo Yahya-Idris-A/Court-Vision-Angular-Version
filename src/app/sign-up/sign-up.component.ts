@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import * as authServices from '../../services/authServices';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,11 +17,11 @@ export class SignUpComponent {
     eyeOff: EyeOff,
   };
   userData = {
-    username: '',
+    name: '',
     email: '',
     password: '',
-    confirmPassword: '',
   };
+  confirmPassword = '';
   showPassword = false;
   showConfirmPassword = false;
   isLoading = false;
@@ -33,13 +34,26 @@ export class SignUpComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  handleSubmit(event: Event): void {
+  async handleSubmit(event: Event): Promise<void> {
     event.preventDefault();
     this.isLoading = true;
-
-    setTimeout(() => {
+    if (this.userData.password !== this.confirmPassword) {
+      alert('Password tidak sesuai!');
       this.isLoading = false;
-      console.log('Submitted:', this.userData);
-    }, 1500);
+      return;
+    } else {
+      try {
+        const response = await authServices.signup(this.userData);
+        console.log('Login Success:', response);
+        localStorage.setItem('token', response.data.token);
+        console.log('Token: ', response.data.token);
+        window.location.href = '/dashboard/profile';
+      } catch (error) {
+        console.error('Login failed:', error);
+        alert('Sign Up gagal. Cek email atau password!');
+      } finally {
+        this.isLoading = false;
+      }
+    }
   }
 }
