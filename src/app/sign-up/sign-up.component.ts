@@ -49,7 +49,7 @@ export class SignUpComponent {
         console.log('Token: ', response.data.token);
         window.location.href = '/dashboard/profile';
       } catch (error) {
-        console.error('Login failed:', error);
+        console.error('Sign Up failed:', error);
         alert('Sign Up gagal. Cek email atau password!');
       } finally {
         this.isLoading = false;
