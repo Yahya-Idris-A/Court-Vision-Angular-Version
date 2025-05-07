@@ -44,7 +44,7 @@ export class SignUpComponent {
     } else {
       try {
         const response = await authServices.signup(this.userData);
-        console.log('Login Success:', response);
+        console.log('Sign Up Success:', response);
         localStorage.setItem('token', response.data.token);
         console.log('Token: ', response.data.token);
         window.location.href = '/dashboard/profile';
