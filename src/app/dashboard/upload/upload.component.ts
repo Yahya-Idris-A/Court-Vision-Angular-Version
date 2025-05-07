@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ElementRef,
+  NgZone,
 } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -19,7 +20,6 @@ import {
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 import Uppy from '@uppy/core';
-import type { UppyFile as GenericUppyFile } from '@uppy/core';
 import AwsS3 from '@uppy/aws-s3';
 import DropTarget from '@uppy/drop-target';
 import * as uploadServices from '../../../services/uploadServices';
@@ -57,7 +57,7 @@ export class UploadComponent {
 
   // Inisiasi Datepicker
   @ViewChild(MatDatepicker) picker!: MatDatepicker<Date>;
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
 
   ngAfterViewInit() {
     // Pastikan elemen picker sudah siap
@@ -96,20 +96,24 @@ export class UploadComponent {
   }
 
   handleFileSelect(event: Event): void {
-    const file = event.target as HTMLInputElement;
-    if (file) {
-      this.selectedFile = {
-        id: crypto.randomUUID(),
-        name: file.name,
-        size: file.size,
-        type: file.type,
-      };
-      this.uppy.addFile({
-        source: 'file input',
-        name: file.name,
-        type: file.type,
-        data: file,
-      });
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      console.log(file);
+      if (file) {
+        this.selectedFile = {
+          id: crypto.randomUUID(),
+          name: file.name,
+          size: file.size,
+          type: file.type,
+        };
+        this.uppy.addFile({
+          source: 'file input',
+          name: file.name,
+          type: file.type,
+          data: file,
+        });
+      }
     }
   }
 
@@ -307,21 +311,28 @@ export class UploadComponent {
     });
 
     this.uppy.on('upload-progress', (file, progress) => {
-      if (this.selectedFile && file && this.selectedFile.id === file.id) {
-        this.isUploading = true;
-        if (progress.bytesTotal !== null) {
-          this.uploadProgress = Math.floor(
-            (progress.bytesUploaded / progress.bytesTotal) * 100
-          );
+      this.ngZone.run(() => {
+        if (this.selectedFile && file && this.selectedFile.id === file.id) {
+          this.isUploading = true;
+          if (progress.bytesTotal !== null) {
+            this.uploadProgress = Math.floor(
+              (progress.bytesUploaded / progress.bytesTotal) * 100
+            );
+            console.log('Progress:', this.uploadProgress);
+            this.cdr.detectChanges();
+          }
         }
-      }
+      });
     });
 
     this.uppy.on('upload-success', (file, response) => {
-      this.isUploading = false;
-      this.uploadSuccess = true;
-      this.uploadProgress = 100;
-      console.log('Upload successful to:', response.uploadURL);
+      this.ngZone.run(() => {
+        this.isUploading = false;
+        this.uploadSuccess = true;
+        this.uploadProgress = 100;
+        console.log('Upload successful to:', response.uploadURL);
+        this.cdr.detectChanges();
+      });
     });
 
     this.uppy.on('upload-error', (file, error) => {

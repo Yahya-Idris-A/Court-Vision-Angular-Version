@@ -21,12 +21,12 @@ interface UserResponse {
 
 // login
 export const signin = (data: AuthPayload) => {
-  return axiosIns.post('/api/login', data);
+  return axiosIns.post('/api/auth/login', data);
 };
 
 // registrasi
 export const signup = (data: AuthPayload) => {
-  return axiosIns.post('/api/signup', data);
+  return axiosIns.post('/api/auth/register', data);
 };
 
 // get user profile
@@ -37,7 +37,7 @@ export const getUser = async (): Promise<UserData | null> => {
   }`;
 
   try {
-    const res = await axiosIns.get('/api/profile');
+    const res = await axiosIns.get('/api/users/profile');
     return res.data.user;
   } catch (err) {
     console.error('Error fetching user:', err);
