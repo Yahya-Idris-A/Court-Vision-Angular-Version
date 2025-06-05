@@ -95,3 +95,18 @@ export async function abortMultipartUpload(
   );
   return res.data;
 }
+
+export async function uploadAllData(
+  title: string,
+  date: string,
+  venue: string,
+  video_url: string
+) {
+  const res = await axiosIns.post('/api/videos', {
+    title,
+    date,
+    venue,
+    video_url,
+  });
+  return res;
+}

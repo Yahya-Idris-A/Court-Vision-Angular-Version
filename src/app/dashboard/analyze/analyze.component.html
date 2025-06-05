@@ -12,12 +12,37 @@
   <div class="flex flex-col items-center justify-start w-full gap-[16px]">
     <app-list-videos
       class="w-full"
+      *ngFor="let item of videos()"
+      [thumbnail]="item.thumbnail"
+      [title]="item.title"
+      [date]="item.date"
+      [uploadProgress]="item.uploadProgress"
+      [uploadStatus]="item.uploadStatus"
+      [detailAnalysisUrl]="item.detailAnalysisUrl"
+    ></app-list-videos>
+  </div>
+  <!-- List of Videos -->
+  <div class="flex flex-col items-center justify-start w-[100%] gap-[16px]">
+    <app-list-videos
+      class="w-full"
       *ngFor="let item of videoData"
       [thumbnail]="item.thumbnail"
       [title]="item.title"
       [date]="item.date"
       [uploadProgress]="item.uploadProgress"
+      [uploadStatus]="item.uploadStatus"
       [detailAnalysisUrl]="item.detailAnalysisUrl"
     ></app-list-videos>
+  </div>
+  <div
+    *ngIf="videoData.length > itemsPerPage"
+    class="flex mt-4 w-full justify-end mr-[30px]"
+  >
+    <app-pagination
+      [currentPage]="currentPage()"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="currentPage.set($event)"
+    ></app-pagination>
   </div>
 </div>

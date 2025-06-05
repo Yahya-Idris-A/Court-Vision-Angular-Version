@@ -17,31 +17,83 @@
           <h2 class="text-black text-[20px] font-semibold">{{ title }}</h2>
           <p class="text-[15px] text-[#ADADAD] font-semibold">{{ date }}</p>
         </div>
-        <p class="text-[15px] text-black font-semibold">
-          {{ uploadProgress !== null ? uploadProgress : 0 }}%
-        </p>
+
+        <ng-container [ngSwitch]="uploadStatus">
+          <p
+            *ngSwitchCase="'waiting'"
+            class="text-[15px] text-black font-semibold"
+          >
+            0%
+          </p>
+          <p
+            *ngSwitchCase="'processing'"
+            class="text-[15px] text-black font-semibold"
+          >
+            {{ uploadProgress !== null ? uploadProgress : 0 }}%
+          </p>
+          <p
+            *ngSwitchCase="'completed'"
+            class="text-[15px] text-black font-semibold"
+          >
+            100%
+          </p>
+          <p
+            *ngSwitchCase="'failed'"
+            class="text-[15px] text-black font-semibold"
+          >
+            0%
+          </p>
+        </ng-container>
       </div>
 
-      <!-- Progress Bar -->
-      <ng-container *ngIf="uploadProgress !== null; else indeterminate">
+      <ng-container [ngSwitch]="uploadStatus">
         <div
-          class="overflow-hidden rounded-[10px] border-[1px] border-[#403D91] h-[20px]"
-        >
-          <div
-            class="h-full bg-[#403D91] transition-all duration-500 ease-in-out"
-            [style.width.%]="uploadProgress"
-          ></div>
-        </div>
-      </ng-container>
-      <ng-template #indeterminate>
-        <div
+          *ngSwitchCase="'waiting'"
           class="overflow-hidden rounded-[10px] border-[1px] border-[#403D91] h-[20px] relative bg-white"
         >
           <div
             class="absolute top-0 left-0 h-full w-1/3 bg-[#403D91] animate-pulse-indeterminate"
           ></div>
         </div>
-      </ng-template>
+        <div
+          *ngIf="uploadStatus === 'processing' && uploadProgress === null"
+          class="overflow-hidden rounded-[10px] border-[1px] border-[#403D91] h-[20px] relative bg-white"
+        >
+          <div
+            class="absolute top-0 left-0 h-full w-1/3 bg-[#403D91] animate-pulse-indeterminate"
+          ></div>
+        </div>
+
+        <div
+          *ngIf="uploadStatus === 'processing' && uploadProgress !== null"
+          class="overflow-hidden rounded-[10px] border-[1px] border-[#403D91] h-[20px]"
+        >
+          <div
+            class="h-full bg-[#403D91] transition-all duration-500 ease-in-out"
+            [style.width]="uploadProgress + '%'"
+          ></div>
+        </div>
+
+        <div
+          *ngSwitchCase="'completed'"
+          class="overflow-hidden rounded-[10px] border-[1px] border-[#403D91] h-[20px]"
+        >
+          <div
+            class="h-full bg-[#403D91] transition-all duration-500 ease-in-out"
+            style="width: 100%"
+          ></div>
+        </div>
+
+        <div
+          *ngSwitchCase="'failed'"
+          class="overflow-hidden rounded-[10px] border-[1px] border-[#403D91] h-[20px]"
+        >
+          <div
+            class="h-full bg-[#403D91] transition-all duration-500 ease-in-out"
+            style="width: 0%"
+          ></div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="flex flex-row justify-start gap-[5px] items-center mt-1">

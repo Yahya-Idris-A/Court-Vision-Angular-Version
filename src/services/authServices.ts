@@ -11,6 +11,7 @@ export interface UserData {
   id: number;
   name: string;
   email: string;
+  photo_url: string;
 }
 
 interface UserResponse {
@@ -44,3 +45,21 @@ export const getUser = async (): Promise<UserData | null> => {
     return null;
   }
 };
+
+// update user profile
+export async function updateUserData(
+  name: string,
+  email: string,
+  photo_url: string
+) {
+  axiosIns.defaults.headers.common['Content-Type'] = 'application/json';
+  axiosIns.defaults.headers.common['Authorization'] = `Bearer ${
+    localStorage.getItem('token')?.replace(/['"]+/g, '') || ''
+  }`;
+  const res = await axiosIns.put('/api/users/profile', {
+    name,
+    email,
+    photo_url,
+  });
+  return res;
+}

@@ -82,6 +82,7 @@ export class UploadComponent {
   matchTitle: string = '';
   matchDate: Date | null = null;
   matchVenue: string = '';
+  video_url: string = '';
   selectedFile: filInfo | null = null;
   isUploading = false;
   uploadProgress = 0;
@@ -137,8 +138,24 @@ export class UploadComponent {
     if (this.uploadSuccess && this.selectedFile) {
       console.log('Starting analysis for:', this.selectedFile.name);
       console.log('Match Title:', this.matchTitle);
-      console.log('Match Date:', this.matchDate?.toLocaleDateString());
+      console.log(
+        'Match Date:',
+        this.matchDate?.toISOString().split('T')[0] ?? ''
+      );
       console.log('Match Venue:', this.matchVenue);
+      const dateUp = this.matchDate?.toISOString().split('T')[0] ?? '';
+      try {
+        uploadServices.uploadAllData(
+          this.matchTitle,
+          dateUp,
+          this.matchVenue,
+          this.video_url
+        );
+        console.log('Sukses');
+      } catch (error) {
+        console.log('Gagal upload');
+        console.error(error);
+      }
     }
   }
   onDragOver(event: DragEvent): void {
@@ -330,6 +347,7 @@ export class UploadComponent {
         this.isUploading = false;
         this.uploadSuccess = true;
         this.uploadProgress = 100;
+        this.video_url = response.uploadURL || ``;
         console.log('Upload successful to:', response.uploadURL);
         this.cdr.detectChanges();
       });
@@ -337,7 +355,7 @@ export class UploadComponent {
 
     this.uppy.on('upload-error', (file, error) => {
       this.isUploading = false;
-      console.error('Upload failed:', error);
+      console.error('Upload failed:');
     });
   }
 

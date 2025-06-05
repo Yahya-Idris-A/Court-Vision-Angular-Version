@@ -25,16 +25,17 @@ export class ListVideosComponent {
   @Input() title!: string;
   @Input() date!: string;
   @Input() uploadProgress: number | null = null;
+  @Input() uploadStatus!: string;
   @Input() detailAnalysisUrl!: string;
   constructor(private cdr: ChangeDetectorRef) {}
 
   loadingStep = 0;
-  loadingText = 'Analyzing';
+  loadingText = 'Waiting';
 
   ngOnInit() {
     setInterval(() => {
       this.loadingStep = (this.loadingStep + 1) % 4;
-      this.loadingText = `Analyzing${'.'.repeat(this.loadingStep)}`;
+      this.loadingText = `${this.uploadStatus}${'.'.repeat(this.loadingStep)}`;
       this.cdr.detectChanges();
     }, 500);
   }

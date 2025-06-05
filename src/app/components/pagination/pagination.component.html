@@ -1,0 +1,41 @@
+<div class="flex gap-[0.5rem] items-center mb-[20px]">
+  <button
+    (click)="onPrevious()"
+    [disabled]="currentPage === 1"
+    class="text-[#4B465C] bg-gray-200 rounded-[6px] px-[10px] py-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+    aria-label="Go to previous page"
+  >
+    &lt;
+  </button>
+
+  <ng-container *ngFor="let num of pageNumbers">
+    <button
+      *ngIf="typeof num === 'number'"
+      (click)="onPageClick(num)"
+      [disabled]="num === currentPage"
+      [class.bg-[#FD6A2A]]="num === currentPage"
+      [class.text-white]="num === currentPage"
+      [class.bg-gray-200]="num !== currentPage"
+      class="w-[45px] py-[8px] text-[#4B465C] cursor-pointer rounded-[6px] transition-all duration-300"
+      [attr.aria-current]="num === currentPage ? 'page' : null"
+    >
+      {{ num }}
+    </button>
+    <span
+      *ngIf="typeof num != 'number'"
+      class="w-[45px] py-[8px] text-[#4B465C] rounded-[6px] bg-gray-200 text-center select-none"
+      aria-hidden="true"
+    >
+      ...
+    </span>
+  </ng-container>
+
+  <button
+    (click)="onNext()"
+    [disabled]="currentPage === totalPages || totalPages === 0"
+    class="text-[#4B465C] bg-gray-200 rounded-[6px] px-[10px] py-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+    aria-label="Go to next page"
+  >
+    &gt;
+  </button>
+</div>
