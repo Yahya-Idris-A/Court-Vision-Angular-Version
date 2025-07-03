@@ -147,6 +147,7 @@
         *ngIf="isSidebarExpanded; else showChevronRight"
         [name]="icons.chevronLeft"
         [size]="30"
+        aria-label="Collapse Sidebar"
       ></lucide-angular>
 
       <!-- Jika sidebar tertutup -->
@@ -154,6 +155,7 @@
         <lucide-angular
           [name]="icons.chevronRight"
           [size]="30"
+          aria-label="Expand Sidebar"
         ></lucide-angular>
       </ng-template>
     </button>

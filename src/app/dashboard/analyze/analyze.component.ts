@@ -25,46 +25,10 @@ export class AnalyzeComponent {
   public videosRef: { current: VideoData[] } = { current: this.videos() };
   public currentPage: WritableSignal<number> = signal<number>(1);
 
-  public itemsPerPage = 2;
+  public itemsPerPage = 3;
 
-  videoData = [
-    {
-      thumbnail: '/thumb/thumbnail.jpg',
-      title: 'Basket Match Day 1',
-      date: '2024-08-20',
-      uploadProgress: null,
-      uploadStatus: 'waiting',
-      detailAnalysisUrl: '/dashboard/analyze/detail/1',
-    },
-    {
-      thumbnail: '/thumb/thumbnail.jpg',
-      title: 'Basket Match Day 2',
-      date: '2024-08-20',
-      uploadProgress: 80,
-      uploadStatus: 'processing',
-      detailAnalysisUrl: '/dashboard/analyze/detail/2',
-    },
-    {
-      thumbnail: '/thumb/thumbnail.jpg',
-      title: 'Basket Match Day 3',
-      date: '2024-08-21',
-      uploadProgress: 100,
-      uploadStatus: 'completed',
-      detailAnalysisUrl: '/dashboard/analyze/detail/3',
-    },
-
-    {
-      thumbnail: '/thumb/thumbnail.jpg',
-      title: 'Basket Match Day 3',
-      date: '2024-08-21',
-      uploadProgress: null,
-      uploadStatus: 'failed',
-      detailAnalysisUrl: '/dashboard/analyze/detail/3',
-    },
-  ];
-
-  totalItems = this.videoData.length;
-  currentData = this.videoData.slice(
+  totalItems = this.videos().length;
+  currentData = this.videos().slice(
     (this.currentPage() - 1) * this.itemsPerPage,
     this.currentPage() * this.itemsPerPage
   );
@@ -83,6 +47,7 @@ export class AnalyzeComponent {
         detailAnalysisUrl: `/detail-analyze/${item.id}`,
       }));
       this.videos.set(formattedData);
+      console.log(this.videos().length > this.itemsPerPage);
     } catch (error) {
       console.error('❌ Failed to fetch user data:', error);
     }
